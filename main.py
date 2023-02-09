@@ -1,3 +1,15 @@
 class Jogador():
-    pass
+    
+    mo
+    def __init__(jogador,):
+        self.joogador=null
+        moedas
+    
+
+        
+    
+
+
+    
+    
     
