@@ -1,5 +1,8 @@
+import random
+
 from Baralho import Baralho
 from Jogador import Jogador
+from Influencia import Influencia
 
 
 class Juiz:
@@ -7,6 +10,7 @@ class Juiz:
         self.regraDaCondensa = regraDaCondensa
         self.regraDoCapitao = regraDoCapitao
         self.tempoDeEspera = tempoDeEspera  # em segundos
+        # de acordo com a regra: Sempre que um jogador perder uma influência dele deve virar uma de suas cartas para cima.
         self.jogoContado = jogoContado
         self.qtdJogadores = len(participantes)  # minimo 3 jogadores
         self.jogadores = []
@@ -21,7 +25,9 @@ class Juiz:
         # Criação dos jogadores e distribuição das influências:
         for jogador in participantes:
             self.jogadores.append(
-                Jogador(jogador, self.baralho.influencias.pop(), self.baralho.influencias.pop()))
+                Jogador(nome=jogador, influencia1=Influencia(self.baralho.influencias.pop()), influencia2=Influencia(self.baralho.influencias.pop())))
+        # Deixa aleatório a ordem para começar o jogo
+        random.shuffle(self.jogadores)
 
     def saida(x):
         print(x)
@@ -87,3 +93,20 @@ class Juiz:
         for x in range(numbers):
             jogadores.append(Jogador(nomes[x]))
         return jogadores
+
+    def golpeDeEstado(self, jogador):
+
+        if jogador.mao[0].ativo and jogador.mao[1].ativo:
+            influenciaSelecionada = jogador.aguardeAcao(
+                "Selecione qual influência você vai perder: ")
+
+            jogador.perderInfluencia(int(influenciaSelecionada))
+            print("Golpe de estado dado em:")
+            print(jogador.nome)
+        else:
+            jogador.perderInfluencia(1)
+            jogador.perderInfluencia(2)
+            self.jogadores.remove(jogador)
+            print(jogador.nome, "Perdeu todas suas influências e está fora do jogo!")
+            print("Mão do jogador: ")
+            print(jogador.mao)

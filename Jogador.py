@@ -19,5 +19,27 @@ class Jogador:
     def perderMoeda():
         print("Perder Moeda")
 
-    def golpeEstado():
+    # Necessário ter um método para cada forma de perder influência?
+    # Fomas de perder influência:
+    # Golpe de estado
+    # Assasinato
+    # Contestação errada
+    # Contestação certa
+    # Criei um método genérico de perder influência para debatermos esse ponto depois
+    def golpeEstado(influencia):
+
         print("Golpe de Estado")
+
+    def mensagemPrivada(self, mensagem):
+        print(self.nome+':', mensagem)
+
+    def aguardeAcao(self, mensagem):
+        return input(self.nome+': '+mensagem)
+
+    def perderInfluencia(self, influencia):
+        self.mao[influencia-1].ativo = False
+
+    def mostrarMao(self):
+        for i, influencia in enumerate(self.mao):
+            if influencia.ativo:
+                print(i+1, "-", influencia.nome)
